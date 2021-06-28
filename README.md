@@ -1,2 +1,2 @@
 # The Occult RC Race
-Material: AR Foundation and friends"
+Material: AR Foundation and friends
