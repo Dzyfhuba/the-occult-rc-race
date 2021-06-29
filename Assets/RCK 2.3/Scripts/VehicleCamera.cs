@@ -15,6 +15,8 @@ public class VehicleCamera : MonoBehaviour
     public float height = 1.0f;
     public float Angle = 20;
 
+    public int speedOfCamera = 5;
+
 
     public List<Transform> cameraSwitchView;
     public LayerMask lineOfSightMask = 0;
@@ -272,21 +274,25 @@ public class VehicleCamera : MonoBehaviour
         {
             // Damp angle from current y-angle towards target y-angle
 
-            float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x,
-           target.eulerAngles.x + Angle, ref xVelocity, smooth);
+            //float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x,
+            //target.eulerAngles.x + Angle, ref xVelocity, smooth);
 
-            float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y,
-            target.eulerAngles.y, ref yVelocity, smooth);
+            //float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y,
+            //target.eulerAngles.y, ref yVelocity, smooth);
 
             // Look at the target
-            transform.eulerAngles = new Vector3(xAngle, yAngle,0.0f);
+            //transform.eulerAngles = new Vector3(xAngle, yAngle,0.0f);
 
-            var direction = transform.rotation * -Vector3.forward;
-            var targetDistance = AdjustLineOfSight(target.position + new Vector3(0, height, 0), direction);
+            //var direction = transform.rotation * -Vector3.forward;
+            //var targetDistance = AdjustLineOfSight(target.position + new Vector3(0, height, 0), direction);
 
 
-            transform.position = target.position + new Vector3(0, height, 0) + direction * targetDistance;
+            //transform.position = target.position + new Vector3(0, height, 0) + direction * targetDistance;
 
+            Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+
+            // Smoothly rotate towards the target point.
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedOfCamera * Time.deltaTime);
 
         }
         else
